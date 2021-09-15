@@ -1,6 +1,9 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Role;
+use App\Area;
+use App\Empleado;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,5 +17,18 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    $areas = Area::all()->pluck('nombre', 'id');
+    $roles = Role::all()->pluck('nombre', 'id');
+    return view('welcome', ['areas'=>$areas, 'roles'=>$roles]);
 });
+
+Route::post('/new', 'EmpleadoController@store');
+
+Route::get('/viewTableEmpleado', 'EmpleadoController@viewTableEmpleado');
+
+Route::get('/getDatos', 'EmpleadoController@getDatos');
+
+Route::get('/destroy/{id}', 'EmpleadoController@destroy');
+
+Route::get('/edit/{id}', 'EmpleadoController@edit');
+Route::put('/update', ['as' => 'empleado.update', 'uses' => 'EmpleadoController@update']);
